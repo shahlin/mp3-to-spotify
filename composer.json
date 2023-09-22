@@ -10,10 +10,12 @@
     "authors": [
         {
             "name": "Shahlin Ibrahim",
-            "email": "32275018+shahlin@users.noreply.github.com"
+            "email": "shahlin44@gmai.com"
         }
     ],
     "require": {
-        "laravel/prompts": "^0.1.8"
+        "laravel/prompts": "^0.1.8",
+        "guzzlehttp/guzzle": "^7.0",
+        "vlucas/phpdotenv": "^5.5"
     }
 }
