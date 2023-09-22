@@ -1,0 +1,19 @@
+{
+    "name": "shahlinibrahim/mp3-to-spotify",
+    "description": "Convert your MP3 files to Spotify Tracks",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Shahlinibrahim\\Mp3ToSpotify\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Shahlin Ibrahim",
+            "email": "32275018+shahlin@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "laravel/prompts": "^0.1.8"
+    }
+}
