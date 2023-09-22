@@ -1,5 +1,5 @@
 # MP3 To Spotify
-I've had lots of songs from the past in MP3 format and now that I've moved to Spotify, I needed all the MP3 files on Spotify. No way I'm adding them to my playlist one by one, so I wrote a script!
+I've had lots of songs from the past in MP3 format and now that I've moved to Spotify, I needed all the MP3 files on Spotify (not as local files but actual Spotify tracks). And no way I'm adding them to my playlist one by one, there's alot of them. So I wrote a script!
 
 # Flow
 1. In command line, call: `php convert.php`
