@@ -12,7 +12,7 @@ I've had lots of songs from the past in MP3 format and now that I've moved to Sp
 2. Authorize Spotify
 3. Select Spotify Playlist to add to
 4. Set folder path to find MP3s
-5. Set delimiter for artist/track name
+5. Set separator for artist/track name
 6. Select which side is artist and which is track name
 7. Loop through each MP3 file, get the track ID. Log the ones that are not found. Also, show progress in command line
 8. Once done, add to selected playlist in batches

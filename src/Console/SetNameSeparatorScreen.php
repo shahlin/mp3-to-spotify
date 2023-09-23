@@ -10,23 +10,15 @@ use Shahlinibrahim\Mp3ToSpotify\Exceptions\PathNotFoundException;
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\text;
 
-class SetSongsFolderScreen implements ConsoleScreen {
+class SetNameSeparatorScreen implements ConsoleScreen {
 
     use Data, ShouldProceed;
 
     public function display() {
-        $path = text("Specify the path to your songs folder that you want to transfer");
+        $separator = text("How are the artists and tracks separated in the file names? Example: ' - ', '-'");
 
-        try {
-            $this->validatePath($path);
-            $path = rtrim($path, '/') . '/';
-
-            $this->data['path'] = $path;
-            $this->shouldProceed();
-        } catch (PathNotFoundException $e) {
-            error($e->getMessage());
-            $this->shouldNotProceed();
-        }
+        $this->data['separator'] = $separator;
+        $this->shouldProceed();
     }
 
     private function validatePath(String $path) {
