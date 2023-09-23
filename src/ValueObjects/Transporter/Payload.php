@@ -37,9 +37,22 @@ class Payload {
         $formData ??= FormData::create();
 
         $method = Method::POST;
-        $uri = ResourceUri::create($resource);
+        $uri = ResourceUri::from($resource);
 
         return new self($contentType, $method, $uri, $formData);
+    }
+
+        /**
+     * Creates a new Payload value object
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function retrieve(string $resource): self {
+        $contentType = ContentType::JSON;
+        $method = Method::GET;
+        $uri = ResourceUri::from($resource);
+
+        return new self($contentType, $method, $uri, FormData::create());
     }
 
     /**

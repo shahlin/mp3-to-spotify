@@ -6,6 +6,8 @@ namespace Shahlinibrahim\Mp3ToSpotify\ValueObjects\Transporter;
 
 use Shahlinibrahim\Mp3ToSpotify\Enums\Transporter\ContentType;
 use Shahlinibrahim\Mp3ToSpotify\ValueObjects\AccessToken;
+use Shahlinibrahim\Mp3ToSpotify\ValueObjects\ClientId;
+use Shahlinibrahim\Mp3ToSpotify\ValueObjects\ClientSecret;
 
 /**
  * @internal
@@ -37,6 +39,15 @@ final class Headers
     {
         return new self([
             'Authorization' => "Bearer {$accessToken->toString()}",
+        ]);
+    }
+
+    public static function withBasicAuthorization(ClientId $clientId, ClientSecret $clientSecret): self
+    {
+        $encodedCredentials = base64_encode($clientId->toString() . ':' . $clientSecret->toString());
+
+        return new self([
+            'Authorization' => "Basic {$encodedCredentials}",
         ]);
     }
 

@@ -2,40 +2,95 @@
 
 namespace Shahlinibrahim\Mp3ToSpotify;
 
-use GuzzleHttp\Client;
+use Shahlinibrahim\Mp3ToSpotify\Concerns\Transportable;
 use Shahlinibrahim\Mp3ToSpotify\Enums\Transporter\ContentType;
 use Shahlinibrahim\Mp3ToSpotify\Responses\AuthResponse;
-use Shahlinibrahim\Mp3ToSpotify\Transporter\HttpTransporter;
 use Shahlinibrahim\Mp3ToSpotify\ValueObjects\AccessToken;
+use Shahlinibrahim\Mp3ToSpotify\ValueObjects\AuthCode;
 use Shahlinibrahim\Mp3ToSpotify\ValueObjects\ClientId;
 use Shahlinibrahim\Mp3ToSpotify\ValueObjects\ClientSecret;
+use Shahlinibrahim\Mp3ToSpotify\ValueObjects\ResourceUri;
 use Shahlinibrahim\Mp3ToSpotify\ValueObjects\Transporter\BaseUri;
 use Shahlinibrahim\Mp3ToSpotify\ValueObjects\Transporter\FormData;
 use Shahlinibrahim\Mp3ToSpotify\ValueObjects\Transporter\Headers;
 use Shahlinibrahim\Mp3ToSpotify\ValueObjects\Transporter\Payload;
+use Shahlinibrahim\Mp3ToSpotify\ValueObjects\Transporter\QueryParams;
 
 class Auth {
 
-    private HttpTransporter $transporter;
+    use Transportable;
 
-    public function __construct() {
-        $baseUri = BaseUri::from($_ENV['SPOTIFY_AUTH_URI']);
-        $authClient = new Client(['base_uri' => $baseUri->toString()]);
+    private const BASE_URI = "accounts.spotify.com";
+    public const AUTH_CODE_FILENAME = ".auth.code";
+    private const SCOPES_NEEDED = [
+        'playlist-read-private',
+        'playlist-modify-private'
+    ];
 
-        $this->transporter = new HttpTransporter($authClient, $baseUri);
+    public function authorize(ClientId $clientId): AuthCode {
+        $scopes = implode(' ', self::SCOPES_NEEDED);
+        $queryParams = QueryParams::create()
+            ->add('client_id', $clientId->toString())
+            ->add('response_type', 'code')
+            ->add('redirect_uri', $_ENV['REDIRECT_URI'])
+            ->add('scope', $scopes);
+
+        $uri = ResourceUri::fromQueryParams('authorize', $queryParams);
+        $authUrl = $this->getBaseUri()->toString() . $uri->toString();
+
+        $this->openInBrowser($authUrl);
+
+        $authCode = $this->waitForAuthCode();
+
+        $this->deleteAuthCodeFile();
+
+        return $authCode;
     }
 
-    public function authenticate(ClientId $clientId, ClientSecret $clientSecret): AccessToken {
+    public function authenticate(ClientId $clientId, ClientSecret $clientSecret, AuthCode $authCode): AccessToken {
         $formData = FormData::create()
-            ->add('grant_type', 'client_credentials')
-            ->add('client_id', $clientId->toString())
-            ->add('client_secret', $clientSecret->toString());
+            ->add('grant_type', 'authorization_code')
+            ->add('code', $authCode->toString())
+            ->add('redirect_uri', $_ENV['REDIRECT_URI']);
 
-        $payload = Payload::create('token', ContentType::WWW_FORM_ENCODED, $formData);
+        $payload = Payload::create('api/token', ContentType::WWW_FORM_ENCODED, $formData);
+        $headers = Headers::withBasicAuthorization($clientId, $clientSecret);
 
-        $response = $this->transporter->requestObject($payload);
+        $response = $this->transporter->requestObject($payload, $headers);
 
         return AuthResponse::fromJson($response->data())->accessToken();
+    }
+
+    private function getBaseUri(): BaseUri {
+        return BaseUri::from(self::BASE_URI);
+    }
+
+    public function openInBrowser(string $url)
+    {
+        switch (PHP_OS) {
+            case 'Darwin':
+                $opener = 'open';
+                break;
+            case 'WINNT':
+                $opener = 'start';
+                break;
+            default:
+                $opener = 'xdg-open';
+        }
+
+        exec($opener . ' "' . $url . '"');
+    }
+
+    private function waitForAuthCode(): AuthCode {
+        while(true) {
+            if ($authCode = @file_get_contents(self::AUTH_CODE_FILENAME)) {
+                return AuthCode::from($authCode);
+            }
+        }
+    }
+
+    private function deleteAuthCodeFile() {
+        unlink(self::AUTH_CODE_FILENAME);
     }
 
 }

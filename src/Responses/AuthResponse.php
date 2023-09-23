@@ -17,7 +17,9 @@ class AuthResponse {
     public static function fromJson(string $json) {
         $obj = json_decode($json);
 
-        return new self(AccessToken::from($obj->access_token), $obj->token_type, $obj->expires_in);
+        return new self(
+            AccessToken::from($obj->access_token), $obj->token_type, $obj->expires_in
+        );
     }
 
     public function accessToken(): AccessToken {
