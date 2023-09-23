@@ -38,7 +38,11 @@ trait ReadsLocalTracks {
     }
 
     private function readAllTrackFileNames(string $path): array {
-        $filenames = preg_grep('~\.(mp3)$~', scandir($path));
+        if (str_ends_with($path, '.txt')) {
+            $filenames = file($path, FILE_IGNORE_NEW_LINES);
+        } else {
+            $filenames = preg_grep('~\.(mp3)$~', scandir($path));
+        }
 
         if (empty($filenames)) {
             throw new EmptyFolderException();

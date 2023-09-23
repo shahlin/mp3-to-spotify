@@ -24,8 +24,8 @@ class AuthScreen implements ConsoleScreen {
     }
 
     public function display() {
-        $clientId = ClientId::from(text("Enter Client ID"));
-        $clientSecret = ClientSecret::from(text("Enter Client Secret"));
+        $clientId = ClientId::from($_ENV['SPOTIFY_CLIENT_ID'] ?? text("Enter Client ID"));
+        $clientSecret = ClientSecret::from($_ENV['SPOTIFY_CLIENT_SECRET'] ?? text("Enter Client Secret"));
 
         try {
             $authCode = spin(

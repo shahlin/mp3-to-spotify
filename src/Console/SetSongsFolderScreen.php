@@ -19,7 +19,6 @@ class SetSongsFolderScreen implements ConsoleScreen {
 
         try {
             $this->validatePath($path);
-            $path = rtrim($path, '/') . '/';
 
             $this->setPath($path);
             $this->shouldProceed();
@@ -30,7 +29,7 @@ class SetSongsFolderScreen implements ConsoleScreen {
     }
 
     private function validatePath(String $path) {
-        if (!file_exists($path) || !is_dir( $path ) ) {
+        if (!file_exists($path)) {
             throw new PathNotFoundException("Given path does not exist");
         } 
     }
