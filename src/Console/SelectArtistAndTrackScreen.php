@@ -7,7 +7,6 @@ use Shahlinibrahim\Mp3ToSpotify\Concerns\ReadsLocalTracks;
 use Shahlinibrahim\Mp3ToSpotify\Concerns\ShouldProceed;
 use Shahlinibrahim\Mp3ToSpotify\Contracts\ConsoleScreen;
 use Shahlinibrahim\Mp3ToSpotify\Exceptions\EmptyFolderException;
-use Shahlinibrahim\Mp3ToSpotify\Exceptions\PathNotFoundException;
 use Shahlinibrahim\Mp3ToSpotify\Exceptions\SeparatorNotFoundInNameException;
 
 use function Laravel\Prompts\confirm;
@@ -20,7 +19,7 @@ class SelectArtistAndTrackScreen implements ConsoleScreen {
 
     public function display() {
         try {
-            $trackName = $this->readOneTrackName($this->path());
+            $fileName = $this->readSingleTrackFileName($this->path());
         } catch (EmptyFolderException $e) {
             error($e->getMessage());
             $this->shouldNotProceed();
@@ -28,8 +27,8 @@ class SelectArtistAndTrackScreen implements ConsoleScreen {
         }
 
         try {
-            $leftToken = $this->getLeftToken($trackName);
-            $rightToken = $this->getRightToken($trackName);
+            $leftToken = $this->getLeftToken($fileName, $this->separator());
+            $rightToken = $this->getRightToken($fileName, $this->separator());
         } catch (SeparatorNotFoundInNameException $e) {
             error($e->getMessage());
             $this->shouldNotProceed();
@@ -51,24 +50,6 @@ class SelectArtistAndTrackScreen implements ConsoleScreen {
         }
 
         $this->shouldProceed();
-    }
-
-    private function getLeftToken(string $trackName): string {
-        return $this->getAllTokensFromTrackName($trackName)[0];
-    }
-
-    private function getRightToken(string $trackName): string {
-        return $this->getAllTokensFromTrackName($trackName)[1];
-    }
-
-    private function getAllTokensFromTrackName(string $trackName): array {
-        $tokens = explode($this->separator(), $trackName);
-
-        if (empty($tokens) || count($tokens) < 2) {
-            throw new SeparatorNotFoundInNameException("Naming separation not found in track name: " . $trackName);
-        }
-
-        return $tokens;
     }
 
 }

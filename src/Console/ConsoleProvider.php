@@ -2,18 +2,16 @@
 
 namespace Shahlinibrahim\Mp3ToSpotify\Console;
 
-use Shahlinibrahim\Mp3ToSpotify\Console\AuthScreen;
-use Shahlinibrahim\Mp3ToSpotify\Console\WelcomeScreen;
-
 class ConsoleProvider {
 
-    public static function boot() {
+    public static function boot() { 
         $welcomeScreen = new WelcomeScreen();
         $authScreen = new AuthScreen();
         $selectPlaylistScreen = new SelectPlaylistScreen();
         $setSongsFolderPathScreen = new SetSongsFolderScreen();
         $setNamesSeparatorScreen = new SetNameSeparatorScreen();
         $selectArtistAndTrackScreen = new SelectArtistAndTrackScreen();
+        $transferScreen = new TransferScreen();
 
         $welcomeScreen->display();
 
@@ -30,9 +28,18 @@ class ConsoleProvider {
         $accessToken = $authScreen->accessToken();
         $selectPlaylistScreen->setAccessToken($accessToken);
         $selectPlaylistScreen->display();
+        $playlistId = $selectPlaylistScreen->playlistId();
+
+        if (!$selectPlaylistScreen->proceed()) {
+            return;
+        }
 
         $setSongsFolderPathScreen->display();
         $songsFolderPath = $setSongsFolderPathScreen->path();
+
+        if (!$setSongsFolderPathScreen->proceed()) {
+            return;
+        }
 
         $setNamesSeparatorScreen->display();
         $separator = $setNamesSeparatorScreen->separator();
@@ -40,6 +47,13 @@ class ConsoleProvider {
         $selectArtistAndTrackScreen->setSeparator($separator);
         $selectArtistAndTrackScreen->setPath($songsFolderPath);
         $selectArtistAndTrackScreen->display();
+
+        $transferScreen->setAccessToken($accessToken);
+        $transferScreen->setSeparator($separator);
+        $transferScreen->setPath($songsFolderPath);
+        $transferScreen->setPlaylistId($playlistId);
+        $transferScreen->setArtistNameLeftSide($selectArtistAndTrackScreen->artistNameLeftSide());
+        $transferScreen->display();
     }
 
 }

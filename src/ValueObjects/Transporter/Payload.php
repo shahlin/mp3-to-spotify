@@ -47,10 +47,14 @@ class Payload {
      *
      * @param  array<string, mixed>  $parameters
      */
-    public static function retrieve(string $resource): self {
-        $contentType = ContentType::JSON;
+    public static function retrieve(string $resource, QueryParams $queryParams = null, ContentType $contentType = ContentType::JSON): self {
         $method = Method::GET;
-        $uri = ResourceUri::from($resource);
+
+        if ($queryParams) {
+            $uri = ResourceUri::fromQueryParams($resource, $queryParams);
+        } else {
+            $uri = ResourceUri::from($resource);
+        }
 
         return new self($contentType, $method, $uri, FormData::create());
     }
@@ -63,11 +67,17 @@ class Payload {
         $uri = $baseUri->toString() . $this->uri->toString();
         $headers = $headers->withContentType($this->contentType);
 
+        if ($this->contentType === ContentType::JSON) {
+            $body = $this->formData->toJson();
+        } else {
+            $body = http_build_query($this->formData->toArray());
+        }
+
         $request = new Request(
             $this->method->value,
             $uri,
             $headers->toArray(),
-            http_build_query($this->formData->toArray())
+            $body
         );
 
         return $request;

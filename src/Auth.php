@@ -24,6 +24,7 @@ class Auth {
     public const AUTH_CODE_FILENAME = ".auth.code";
     private const SCOPES_NEEDED = [
         'playlist-read-private',
+        'playlist-modify-public',
         'playlist-modify-private'
     ];
 

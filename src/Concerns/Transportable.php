@@ -21,5 +21,4 @@ trait Transportable {
         return BaseUri::from('api.spotify.com/v1');
     }
 
-
 }

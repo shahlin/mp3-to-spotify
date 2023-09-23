@@ -15,7 +15,7 @@ class FormData {
         return new self([]);
     }
 
-    public function add(string $key, string $value) {
+    public function add(string $key, mixed $value) {
         return new self([
             ...$this->data,
             $key => $value
@@ -24,6 +24,10 @@ class FormData {
 
     public function toArray(): array {
         return $this->data;
+    }
+
+    public function toJson(): string {
+        return json_encode($this->data);
     }
 
 }
