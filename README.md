@@ -7,6 +7,7 @@ I've had lots of songs from the past in MP3 format and now that I've moved to Sp
 3. WSL on Windows
 
 # Flow
+0. Start local server in root directory
 1. In command line, call: `php convert.php`
 2. Authorize Spotify
 3. Select Spotify Playlist to add to

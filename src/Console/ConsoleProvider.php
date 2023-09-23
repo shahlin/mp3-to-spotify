@@ -11,6 +11,7 @@ class ConsoleProvider {
         $welcomeScreen = new WelcomeScreen();
         $authScreen = new AuthScreen();
         $selectPlaylistScreen = new SelectPlaylistScreen();
+        $setSongsFolderPathScreen = new SetSongsFolderScreen();
 
         $welcomeScreen->display();
 
@@ -27,6 +28,8 @@ class ConsoleProvider {
         $accessToken = $authScreen->accessToken();
         $selectPlaylistScreen->setAccessToken($accessToken);
         $selectPlaylistScreen->display();
+
+        $setSongsFolderPathScreen->display();
     }
 
 }
