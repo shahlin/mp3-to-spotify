@@ -8,8 +8,6 @@ interface ConsoleScreen {
 
     public function display();
 
-    public function data(): array;
-
     public function proceed(): bool;
 
 }

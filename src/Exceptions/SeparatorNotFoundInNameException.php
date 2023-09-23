@@ -4,7 +4,7 @@ namespace Shahlinibrahim\Mp3ToSpotify\Exceptions;
 
 use Exception;
 
-final class PathNotFoundException extends Exception
+final class SeparatorNotFoundInNameException extends Exception
 {
     /**
      * Creates a new Exception instance.

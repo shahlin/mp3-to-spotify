@@ -6,12 +6,10 @@ use Shahlinibrahim\Mp3ToSpotify\ValueObjects\AccessToken;
 
 trait Data {
 
-    private array $data = [];
     private AccessToken $accessToken;
-
-    public function data(): array {
-        return $this->data;
-    }
+    private string $path;
+    private string $separator;
+    private bool $artistNameLeftSide;
 
     public function accessToken(): AccessToken {
         return $this->accessToken;
@@ -19,6 +17,30 @@ trait Data {
 
     public function setAccessToken(AccessToken $accessToken) {
         $this->accessToken = $accessToken;
+    }
+
+    public function path() {
+        return $this->path;
+    }
+
+    public function setPath(string $path) {
+        $this->path = $path;
+    }
+
+    public function separator() {
+        return $this->separator;
+    }
+
+    public function setSeparator(string $separator) {
+        $this->separator = $separator;
+    }
+
+    public function artistNameLeftSide() {
+        return $this->artistNameLeftSide;
+    }
+
+    public function setArtistNameLeftSide(bool $artistNameLeftSide) {
+        $this->artistNameLeftSide = $artistNameLeftSide;
     }
 
 }

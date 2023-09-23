@@ -6,8 +6,6 @@ use Shahlinibrahim\Mp3ToSpotify\Concerns\Data;
 use Shahlinibrahim\Mp3ToSpotify\Concerns\ShouldProceed;
 use Shahlinibrahim\Mp3ToSpotify\Contracts\ConsoleScreen;
 use Shahlinibrahim\Mp3ToSpotify\Exceptions\PathNotFoundException;
-
-use function Laravel\Prompts\error;
 use function Laravel\Prompts\text;
 
 class SetNameSeparatorScreen implements ConsoleScreen {
@@ -17,7 +15,7 @@ class SetNameSeparatorScreen implements ConsoleScreen {
     public function display() {
         $separator = text("How are the artists and tracks separated in the file names? Example: ' - ', '-'");
 
-        $this->data['separator'] = $separator;
+        $this->setSeparator($separator);
         $this->shouldProceed();
     }
 

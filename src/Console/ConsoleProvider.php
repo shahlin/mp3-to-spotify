@@ -13,6 +13,7 @@ class ConsoleProvider {
         $selectPlaylistScreen = new SelectPlaylistScreen();
         $setSongsFolderPathScreen = new SetSongsFolderScreen();
         $setNamesSeparatorScreen = new SetNameSeparatorScreen();
+        $selectArtistAndTrackScreen = new SelectArtistAndTrackScreen();
 
         $welcomeScreen->display();
 
@@ -31,10 +32,14 @@ class ConsoleProvider {
         $selectPlaylistScreen->display();
 
         $setSongsFolderPathScreen->display();
-        $songsFolderPath = $setSongsFolderPathScreen->data()['path'];
+        $songsFolderPath = $setSongsFolderPathScreen->path();
 
         $setNamesSeparatorScreen->display();
-        $separator = $setNamesSeparatorScreen->data()['separator'];
+        $separator = $setNamesSeparatorScreen->separator();
+
+        $selectArtistAndTrackScreen->setSeparator($separator);
+        $selectArtistAndTrackScreen->setPath($songsFolderPath);
+        $selectArtistAndTrackScreen->display();
     }
 
 }

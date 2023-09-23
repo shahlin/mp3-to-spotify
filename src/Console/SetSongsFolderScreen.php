@@ -21,7 +21,7 @@ class SetSongsFolderScreen implements ConsoleScreen {
             $this->validatePath($path);
             $path = rtrim($path, '/') . '/';
 
-            $this->data['path'] = $path;
+            $this->setPath($path);
             $this->shouldProceed();
         } catch (PathNotFoundException $e) {
             error($e->getMessage());
