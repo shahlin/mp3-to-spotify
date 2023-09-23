@@ -33,7 +33,7 @@ class Logger {
     /**
      * File name for the log saved in the log dir
      */
-    public static $log_file_name = "transfer";
+    public static $log_file_name = "logs/transfer";
 
     /**
      * File extension for the logs saved in the log dir
@@ -84,6 +84,10 @@ class Logger {
      * Associative array used as a buffer to keep track of timed logs
      */
     private static $time_tracking = [];
+
+    public static function failed(string $message) {
+        file_put_contents('src/logs/failed.log', $message . "\n", FILE_APPEND);
+    }
 
 
     /**

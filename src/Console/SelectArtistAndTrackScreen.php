@@ -8,6 +8,7 @@ use Shahlinibrahim\Mp3ToSpotify\Concerns\ShouldProceed;
 use Shahlinibrahim\Mp3ToSpotify\Contracts\ConsoleScreen;
 use Shahlinibrahim\Mp3ToSpotify\Exceptions\EmptyFolderException;
 use Shahlinibrahim\Mp3ToSpotify\Exceptions\SeparatorNotFoundInNameException;
+use Shahlinibrahim\Mp3ToSpotify\Logger;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;

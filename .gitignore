@@ -1,4 +1,4 @@
 /vendor/
 .env
 .auth.code
-src/transfer.log
+src/logs/

@@ -1,8 +1,11 @@
 <?php
 
 namespace Shahlinibrahim\Mp3ToSpotify\Concerns;
+
+use Exception;
 use Shahlinibrahim\Mp3ToSpotify\Exceptions\EmptyFolderException;
 use Shahlinibrahim\Mp3ToSpotify\Exceptions\SeparatorNotFoundInNameException;
+use Shahlinibrahim\Mp3ToSpotify\Logger;
 use Shahlinibrahim\Mp3ToSpotify\ValueObjects\LocalTrack;
 
 trait ReadsLocalTracks {
@@ -12,12 +15,16 @@ trait ReadsLocalTracks {
         $tracks = [];
 
         foreach ($filenames as $filename) {
-            if ($artistNameLeftSide) {
-                $artist = $this->getLeftToken($filename, $separator);
-                $track = $this->getRightToken($filename, $separator);
-            } else {
-                $artist = $this->getRightToken($filename, $separator);
-                $track = $this->getLeftToken($filename, $separator);
+            try {
+                if ($artistNameLeftSide) {
+                    $artist = $this->getLeftToken($filename, $separator);
+                    $track = $this->getRightToken($filename, $separator);
+                } else {
+                    $artist = $this->getRightToken($filename, $separator);
+                    $track = $this->getLeftToken($filename, $separator);
+                }
+            } catch (SeparatorNotFoundInNameException $e) {
+                continue;
             }
 
             $tracks[] = LocalTrack::from($artist, $track);
@@ -49,13 +56,15 @@ trait ReadsLocalTracks {
     }
 
     private function getAllTokensFromFileName(string $fileName, string $separator): array {
+        $fileName = str_replace(".mp3", "", $fileName);
         $tokens = explode($separator, $fileName);
 
         if (empty($tokens) || count($tokens) < 2) {
+            Logger::failed($fileName);
             throw new SeparatorNotFoundInNameException("Naming separation not found in file name: " . $fileName);
         }
 
-        return array_map(fn($token) => str_replace(".mp3", "", $token), $tokens);
+        return $tokens;
     }
 
 }

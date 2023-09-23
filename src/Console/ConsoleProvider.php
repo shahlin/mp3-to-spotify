@@ -35,18 +35,28 @@ class ConsoleProvider {
         }
 
         $setSongsFolderPathScreen->display();
-        $songsFolderPath = $setSongsFolderPathScreen->path();
 
         if (!$setSongsFolderPathScreen->proceed()) {
             return;
         }
 
+        $songsFolderPath = $setSongsFolderPathScreen->path();
+
         $setNamesSeparatorScreen->display();
+
+        if (!$setNamesSeparatorScreen->proceed()) {
+            return;
+        }
+
         $separator = $setNamesSeparatorScreen->separator();
 
         $selectArtistAndTrackScreen->setSeparator($separator);
         $selectArtistAndTrackScreen->setPath($songsFolderPath);
         $selectArtistAndTrackScreen->display();
+
+        if (!$selectArtistAndTrackScreen->proceed()) {
+            return;
+        }
 
         $transferScreen->setAccessToken($accessToken);
         $transferScreen->setSeparator($separator);

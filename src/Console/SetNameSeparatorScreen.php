@@ -19,10 +19,4 @@ class SetNameSeparatorScreen implements ConsoleScreen {
         $this->shouldProceed();
     }
 
-    private function validatePath(String $path) {
-        if (!file_exists($path) || !is_dir( $path ) ) {
-            throw new PathNotFoundException("Given path does not exist");
-        } 
-    }
-
 }
