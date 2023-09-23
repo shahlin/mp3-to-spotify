@@ -15,7 +15,7 @@ class SetSongsFolderScreen implements ConsoleScreen {
     use Data, ShouldProceed;
 
     public function display() {
-        $path = text("Specify the path to your songs folder that you want to transfer");
+        $path = $_ENV['LOCAL_TRACKS_PATH'] ?? text("Specify the path to your songs folder that you want to transfer");
 
         try {
             $this->validatePath($path);
