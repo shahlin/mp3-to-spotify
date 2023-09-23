@@ -25,19 +25,27 @@ class Playlist {
     }
 
     public function add(PlaylistId $playlistId, array $trackUrisToAdd) {
-        $formData = FormData::create()
-            ->add('position', 0)
-            ->add('uris', $trackUrisToAdd);
+        $chunks = [$trackUrisToAdd];
 
-        $payload = Payload::create(
-            'playlists/' . $playlistId->toString() . '/tracks',
-            ContentType::JSON,
-            $formData
-        );
+        if (count($trackUrisToAdd) > 100) {
+            $chunks = array_chunk($trackUrisToAdd, 100);
+        }
 
-        $headers = Headers::create()->withAuthorization($this->accessToken);
-        
-        $this->transporter->requestObject($payload, $headers);
+        foreach ($chunks as $trackUriChunk) {
+            $formData = FormData::create()
+                ->add('position', 0)
+                ->add('uris', $trackUriChunk);
+
+            $payload = Payload::create(
+                'playlists/' . $playlistId->toString() . '/tracks',
+                ContentType::JSON,
+                $formData
+            );
+
+            $headers = Headers::create()->withAuthorization($this->accessToken);
+            
+            $this->transporter->requestObject($payload, $headers);
+        }
     }
 
 }
