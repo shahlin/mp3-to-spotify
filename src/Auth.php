@@ -33,7 +33,7 @@ class Auth {
         $queryParams = QueryParams::create()
             ->add('client_id', $clientId->toString())
             ->add('response_type', 'code')
-            ->add('redirect_uri', $_ENV['REDIRECT_URI'])
+            ->add('redirect_uri', $this->getRedirectUri())
             ->add('scope', $scopes);
 
         $uri = ResourceUri::fromQueryParams('authorize', $queryParams);
@@ -52,7 +52,7 @@ class Auth {
         $formData = FormData::create()
             ->add('grant_type', 'authorization_code')
             ->add('code', $authCode->toString())
-            ->add('redirect_uri', $_ENV['REDIRECT_URI']);
+            ->add('redirect_uri', $this->getRedirectUri());
 
         $payload = Payload::create('api/token', ContentType::WWW_FORM_ENCODED, $formData);
         $headers = Headers::withBasicAuthorization($clientId, $clientSecret);
@@ -64,6 +64,10 @@ class Auth {
 
     private function getBaseUri(): BaseUri {
         return BaseUri::from(self::BASE_URI);
+    }
+
+    private function getRedirectUri(): string {
+        return $_ENV['REDIRECT_BASE_URI'] . '/callback.php';
     }
 
     public function openInBrowser(string $url)
