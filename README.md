@@ -1,6 +1,9 @@
 # MP3 To Spotify
 I've had lots of songs from the past in MP3 format and now that I've moved to Spotify, I needed all the MP3 files on Spotify (not as local files but actual Spotify tracks). And no way I'm adding them to my playlist one by one, there's alot of them. So I wrote a script! I've been able to transfer about 1000+ songs with just a few failures (only because Spotify doesn't have those songs).
 
+![Mp3 To Spotify](https://github.com/shahlin/mp3-to-spotify/assets/32275018/77198a87-98a4-4a31-81bb-5a68236b1379)
+
+
 # Features
 1. Supports transfers from text files with names of artists/tracks
 2. Supports transfers from folders containing MP3 files
