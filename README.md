@@ -2,7 +2,7 @@
 I've had lots of songs from the past in MP3 format and now that I've moved to Spotify, I needed all the MP3 files on Spotify (not as local files but actual Spotify tracks). And no way I'm adding them to my playlist one by one, there's alot of them. So I wrote a script!
 
 # Prerequisites
-1. Needs all the local MP3 filenames to be named consistently
+1. Needs all (or most of) the local MP3 filenames to be named consistently
 2. Needs a Spotify account
 
 ## Supported Platforms

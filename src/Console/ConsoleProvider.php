@@ -13,51 +13,38 @@ class ConsoleProvider {
         $selectArtistAndTrackScreen = new SelectArtistAndTrackScreen();
         $transferScreen = new TransferScreen();
 
+        /** WELCOME SCREEN */
         $welcomeScreen->display();
+        if (!$welcomeScreen->proceed()) { return; }
 
-        if (!$welcomeScreen->proceed()) {
-            return;
-        }
-
+        /** AUTH SCREEN */
         $authScreen->display();
+        if (!$authScreen->proceed()) { return; }
 
-        if (!$authScreen->proceed()) {
-            return;
-        }
-
+        /** SELECT PLAYLIST SCREEN */
         $accessToken = $authScreen->accessToken();
         $selectPlaylistScreen->setAccessToken($accessToken);
         $selectPlaylistScreen->display();
         $playlistId = $selectPlaylistScreen->playlistId();
+        if (!$selectPlaylistScreen->proceed()) { return; }
 
-        if (!$selectPlaylistScreen->proceed()) {
-            return;
-        }
-
+        /** SET SONGS FOLDER PATH SCREEN */
         $setSongsFolderPathScreen->display();
+        if (!$setSongsFolderPathScreen->proceed()) { return; }
 
-        if (!$setSongsFolderPathScreen->proceed()) {
-            return;
-        }
-
+        /** SET NAMES SEPARATOR SCREEN */
         $songsFolderPath = $setSongsFolderPathScreen->path();
-
         $setNamesSeparatorScreen->display();
+        if (!$setNamesSeparatorScreen->proceed()) { return; }
 
-        if (!$setNamesSeparatorScreen->proceed()) {
-            return;
-        }
-
+        /** SELECT ARTIST AND TRACK ORDER SCREEN */
         $separator = $setNamesSeparatorScreen->separator();
-
         $selectArtistAndTrackScreen->setSeparator($separator);
         $selectArtistAndTrackScreen->setPath($songsFolderPath);
         $selectArtistAndTrackScreen->display();
+        if (!$selectArtistAndTrackScreen->proceed()) { return; }
 
-        if (!$selectArtistAndTrackScreen->proceed()) {
-            return;
-        }
-
+        /** TRANSFER SCREEN */
         $transferScreen->setAccessToken($accessToken);
         $transferScreen->setSeparator($separator);
         $transferScreen->setPath($songsFolderPath);
