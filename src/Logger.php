@@ -85,8 +85,24 @@ class Logger {
      */
     private static $time_tracking = [];
 
+    private const LOGS_FOLDER_RELATIVE_PATH = "src/logs";
+
+    private static function createLogsFolderIfNotExists() {
+        if (!is_dir(static::LOGS_FOLDER_RELATIVE_PATH)) {
+            mkdir(static::LOGS_FOLDER_RELATIVE_PATH);
+        }
+    }
+
+    private static function createTransferLogFileIfNotExists() {
+        if (!file_exists(static::LOGS_FOLDER_RELATIVE_PATH . '/transfer.log')) {
+            touch(static::LOGS_FOLDER_RELATIVE_PATH .'/transfer.log');
+        }
+    }
+
     public static function failed(string $message) {
-        file_put_contents('src/logs/failed.log', $message . "\n", FILE_APPEND);
+        static::createLogsFolderIfNotExists();
+
+        file_put_contents(static::LOGS_FOLDER_RELATIVE_PATH . '/failed.log', $message . "\n", FILE_APPEND);
     }
 
 
@@ -253,6 +269,8 @@ class Logger {
      * keys are 'output' for STDOUT and the filename for file streams.
      */
     public static function init() {
+        static::createLogsFolderIfNotExists();
+        static::createTransferLogFileIfNotExists();
 
         if ( ! static::$logger_ready ) {
 

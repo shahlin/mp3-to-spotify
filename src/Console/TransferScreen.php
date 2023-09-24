@@ -31,6 +31,12 @@ class TransferScreen implements ConsoleScreen {
 
         $trackUris = $this->searchTracks();
 
+        if (empty($trackUris)) {
+            warning("No songs found to transfer");
+            $this->shouldNotProceed();
+            return;
+        }
+
         $addConfirmation = confirm("Add " . count($trackUris) . " tracks to selected playlist?");
 
         if (!$addConfirmation) {

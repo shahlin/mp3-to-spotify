@@ -67,7 +67,7 @@ class Auth {
     }
 
     private function getRedirectUri(): string {
-        return $_ENV['REDIRECT_BASE_URI'] . '/callback.php';
+        return ($_ENV['REDIRECT_BASE_URI'] ?? 'http://localhost:9001') . '/callback.php';
     }
 
     public function openInBrowser(string $url)

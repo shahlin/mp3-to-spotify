@@ -2,10 +2,13 @@
 
 namespace Shahlinibrahim\Mp3ToSpotify;
 use Dotenv\Dotenv;
+use Dotenv\Exception\InvalidPathException;
 
 require 'vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+try {
+    $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv->load();
+} catch (InvalidPathException) {}
 
 Logger::$log_level = 'debug';
