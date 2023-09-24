@@ -12,9 +12,9 @@ I've had lots of songs from the past in MP3 format and now that I've moved to Sp
 1. **Create an app** on Spotify Developer Dashboard to obtain client ID and client secret
 2. The program asks the user to **authorize** the app to find and add tracks to their playlists
 3. Once authorized, the app requests Spotify for an **access token** to update the playlists on the user's behalf
-4. After all the inputs (path to local tracks, name separator) have been gathered, the transfer process starts
-5. All the local tracks are searched on Spotify and their URIs are stored in memory
-6. The selected playlist is updated with the URIs from the previous step in batch
+4. After all the inputs (path to local tracks, name separator) have been gathered, the **transfer** process starts
+5. All the local tracks are **searched on Spotify** and their corresponding URIs are stored in memory
+6. The URIs or in other words, the tracks, are then **added to the selected playlist**
 
 # Setup
 1. Clone the repository on to your machine and open the directory on your terminal.
