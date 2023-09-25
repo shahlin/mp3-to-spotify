@@ -45,4 +45,4 @@ I've had lots of songs from the past in MP3 format and now that I've moved to Sp
 
 # Credits
 - 3rd Party API usage abstraction inspiration taken from [Nuno Maduro's](https://twitter.com/enunomaduro) [openai/client](https://github.com/openai-php/client)
-- (Simple Quick Logger)[https://github.com/Idearia/php-logger/blob/master/src/Logger.php]
+- [Simple Quick Logger](https://github.com/Idearia/php-logger/blob/master/src/Logger.php)
